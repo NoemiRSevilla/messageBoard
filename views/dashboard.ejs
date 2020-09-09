@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>The Dojo Message Board</h1>
+    <form action="/new/message" method="POST">
+        <% if( messages.creatingMessage){%>
+            <% for(var err of messages.creatingMessage){ %>
+                <h6 class="red"><%= err %></h6>
+            <% } %>
+        <% } %>
+        <label for="name">Name:</label>
+        <input type="text" name="name">
+
+        <label for="message">Message:</label>
+        <input type="text" name="message">
+        <button type="submit">Post Message</button>
+    </form>
+
+    <% for (var m of allMessages){ %>
+        <p>Name:<%= m.name %> </a></p>
+        <p>Message: <%=m.message %></p>
+        <% for (var c of m.comments){ %>
+            <p>Name: <%= c.name %></p>
+            <p>Comment: <%= c.comment %> </p>
+        <% }%>
+            <form action="/message/<%=m._id%>/new/comment" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" name="name">
+                <label for="comment">Comment:</label>
+                <input type="text" name="comment">
+                <button type="submit">Post a comment to <%= m.name %>'s message</button>
+            </form>
+
+    <% } %>
+    <a href="/animals/new">Add a new animal!</a>
+</body>
+
+</html>
